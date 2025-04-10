@@ -13,7 +13,7 @@ const app = new Hono<{
 }>();
 
 // routes
-app.route("/api/v1", userRoutes);
+app.route("/api/v1/user", userRoutes);
 
 // app.get("/", (c) => {
 //   return c.text("medium project backend");

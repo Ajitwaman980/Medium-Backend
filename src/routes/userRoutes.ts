@@ -12,7 +12,7 @@ const router = new Hono<{
 }>();
 
 // User Signup Route
-router.post("/user/signup", async (c) => {
+router.post("/signup", async (c) => {
   try {
     // body
     const { email, name, password } = await c.req.json();
@@ -85,6 +85,46 @@ router.post("/user/signup", async (c) => {
       },
       500
     );
+  }
+});
+
+// login
+router.post("/login", async (c) => {
+  try {
+    const { email, password } = await c.req.json();
+    const prisma = getPrisma(c.env.DATABASE_URL);
+    const user = await prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!user) {
+      return c.json({ messge: "User not found. Please sign up." }, 404);
+    }
+
+    const passwordmatch = bcrypt.compare(user.password, password);
+    if (!passwordmatch) {
+      return c.json(
+        {
+          message: "Invalid password",
+        },
+        401
+      );
+    }
+    const token = await generateToken({ id: user.id });
+    if (!token) {
+      return c.json({ message: "token required " }, 500);
+    }
+    // Set token in cookie
+    setCookie(c, "token", token);
+    return c.json({
+      message: "Logged in successfully",
+      userId: user.id,
+      token,
+    });
+  } catch (error) {
+    return c.json({ message: "something went wrong when user login" });
   }
 });
 
