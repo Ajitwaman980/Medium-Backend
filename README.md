@@ -86,16 +86,8 @@ npm run deploy
 **Ajit Waman**  
 Backend Developer | Node.js | Prisma | PostgreSQL | Hono
 
-For collaboration or feedback: ajitwaman43@gmail.com
 
 
 
 
-```
-npm install
-npm run dev
-```
 
-```
-npm run deploy
-```
