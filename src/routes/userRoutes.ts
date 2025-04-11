@@ -2,14 +2,18 @@ import { Hono } from "hono";
 import { generateToken } from "../util/generateToken";
 import { userschema_validation } from "../util/datavalidation";
 import { getPrisma } from "../util/prismaFuction";
-import { setCookie } from "hono/cookie";
+import { deleteCookie, setCookie } from "hono/cookie";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
+import { AuthmiddleService } from "../middleware/auth";
+
 const router = new Hono<{
   Bindings: {
     DATABASE_URL: string;
   };
 }>();
+
+// GET	/api/v1/user/profile	Get current logged-in user
 
 // User Signup Route
 router.post("/signup", async (c) => {
@@ -125,6 +129,17 @@ router.post("/login", async (c) => {
     });
   } catch (error) {
     return c.json({ message: "something went wrong when user login" });
+  }
+});
+
+// logout
+
+router.get("/logout", AuthmiddleService, (c) => {
+  try {
+    deleteCookie(c, "token");
+    return c.json({ message: "Logged out successfully" });
+  } catch (error) {
+    return c.json({ mesaage: "user logout issue " });
   }
 });
 
