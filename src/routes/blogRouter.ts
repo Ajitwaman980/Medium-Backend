@@ -3,7 +3,7 @@ import { getPrisma } from "../util/prismaFuction";
 import { AuthmiddleService } from "../middleware/auth";
 import { isowner } from "../middleware/isowner";
 import { BlogValidation } from "../util/datavalidation";
-
+import { notification } from "../util/notification";
 const router = new Hono<{
   Bindings: {
     DATABASE_URL: string;
@@ -65,14 +65,33 @@ router.post("/new", AuthmiddleService, async (c) => {
     const user = (c as any).get("user");
     const userId = user.id;
     // new blog
-    const newBlog = await prisma.post.create({
-      data: {
-        title,
-        content,
-        authorId: userId,
-        published: true,
-      },
-    });
+
+    // reudce the latency
+    const [newBlog, newNotification] = await Promise.all([
+      prisma.post.create({
+        data: {
+          title,
+          content,
+          authorId: userId,
+          published: true,
+        },
+      }),
+      notification(c, `New blog created with title ${title}`),
+    ]);
+
+    // const newBlog = await prisma.post.create({
+    //   data: {
+    //     title,
+    //     content,
+    //     authorId: userId,
+    //     published: true,
+    //   },
+    // });
+    // // notification
+    // const newNotification = await notification(
+    //   c,
+    //   `New blog created with title ${newBlog.title}`
+    // );
 
     // return
     return c.json(
