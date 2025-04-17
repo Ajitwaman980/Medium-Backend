@@ -73,9 +73,9 @@ npm run deploy
 
 ### 💬 summary generator Routes
 
-| Method | Route                 | Description          |
-| ------ | --------------------- | -------------------- |
-| GET    | `/api/v1/summary/:id` | Add comment _(Auth)_ |
+| Method | Route                 | Description       |
+| ------ | --------------------- | ----------------- |
+| GET    | `/api/v1/summary/:id` | summary generator |
 
 ## ✅ Features
 
