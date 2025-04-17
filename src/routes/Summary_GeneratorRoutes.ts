@@ -3,6 +3,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { Hono } from "hono";
 import { getPrisma } from "../util/prismaFuction";
 import { symmaryGenerator } from "../util/Summary_Generator";
+import { AuthmiddleService } from "../middleware/auth";
 const router = new Hono<{
   Bindings: {
     DATABASE_URL: string;
@@ -11,7 +12,7 @@ const router = new Hono<{
 }>();
 
 // router summary generator
-router.get("/:id", async (c) => {
+router.get("/:id", AuthmiddleService, async (c) => {
   console.log("summary generator route and api key", c.env.GEMINI_API_KEY);
   try {
     const postid = c.req.param("id");
