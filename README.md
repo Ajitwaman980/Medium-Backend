@@ -77,6 +77,17 @@ npm run deploy
 | ------ | --------------------- | ----------------- |
 | GET    | `/api/v1/summary/:id` | summary generator |
 
+🔔 Notification Routes
+
+### 🔔 Notification Routes
+
+| Method | Route                                | Description                        |
+|--------|--------------------------------------|------------------------------------|
+| GET    | `/api/v1/notify/all/notify`          | Get all notifications _(Auth)_     |
+| DELETE | `/api/v1/notify/delete/:id`          | Delete notification by ID _(Auth)_ |
+| DELETE | `/api/v1/notify/delete/all/notify`   | Delete all notifications _(Auth)_  |
+
+
 ## ✅ Features
 
 - User authentication with JWT
