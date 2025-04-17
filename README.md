@@ -77,7 +77,7 @@ npm run deploy
 | ------ | --------------------- | ----------------- |
 | GET    | `/api/v1/summary/:id` | summary generator |
 
-🔔 Notification Routes
+
 
 ### 🔔 Notification Routes
 
