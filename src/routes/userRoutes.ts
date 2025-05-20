@@ -107,6 +107,7 @@ router.post("/login", async (c) => {
       return c.json({ messge: "User not found. Please sign up." }, 404);
     }
 
+    console.log("this is password", password);
     const passwordmatch = bcrypt.compare(user.password, password);
     if (!passwordmatch) {
       return c.json(

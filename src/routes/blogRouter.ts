@@ -1,19 +1,38 @@
-import { Hono } from "hono";
+import { Hono, MiddlewareHandler } from "hono";
 import { getPrisma } from "../util/prismaFuction";
+import { cache } from "hono/cache";
 import { AuthmiddleService } from "../middleware/auth";
 import { isowner } from "../middleware/isowner";
 import { BlogValidation } from "../util/datavalidation";
 import { notification } from "../util/notification";
+
+// make the instance of node cache
+
+// const NodeCache = new nodecache();
+
 const router = new Hono<{
   Bindings: {
     DATABASE_URL: string;
   };
 }>();
+
+// middleware for cache data
+const cacheOptions = {
+  cacheName: "mycache",
+  ttl: 60,
+  staleWhileRevalidate: 120,
+};
 // all blog
-router.get("/all", async (c) => {
+router.get("/all", cache(cacheOptions), async (c) => {
   try {
     const prisma = getPrisma(c.env.DATABASE_URL);
+    // gettiing all data from database
+    // const cachedResponse = await c.get("mycache");
     const allBlogs = await prisma.post.findMany();
+    if (!allBlogs) {
+      return c.json({ success: false, message: "no blog present " });
+    }
+    // NodeCache.set("mykey", allBlogs);
 
     return c.json({ success: true, blogs: allBlogs });
   } catch (error) {
