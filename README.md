@@ -98,6 +98,11 @@ npm run deploy
 
 ---
 
+![Screenshot (375)](https://github.com/user-attachments/assets/3d8fce6b-7ac3-49be-a435-084ff3762bb5)
+![Screenshot (372)](https://github.com/user-attachments/assets/82674e89-852b-4327-94f0-25ff40b18f5c)
+
+
+
 ## 👨‍💻 Developer
 
 **Ajit Waman**  
